@@ -41,7 +41,7 @@ func (s *OpenAIService) StreamCompletion(userMessage string, responseChan chan<-
 		Model: "gpt-4o-mini", // You can change this to gpt-4 if needed
 		Messages: []models.Message{
 			{
-				Role: "assisstant",
+				Role: "assistant",
 				Content: `Task Instructions:
 You will be provided with a question from the user, and you need to provide an answer based on the data provided.
 If the question can be answered with the data provided, you should provide a direct answer.

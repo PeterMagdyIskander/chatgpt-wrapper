@@ -9,6 +9,6 @@ type UserMessageDTO struct {
 type MessageUserTable struct {
 	MessageId      string
 	UserId         string
-	Status         bool
+	Flagged        bool
 	MessageContent string
 }

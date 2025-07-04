@@ -50,7 +50,7 @@ func (h *MessageHandlers) PostMessage(c *gin.Context) {
 	message := models.MessageUserTable{
 		MessageId:      generateMessageID(),
 		UserId:         newMessage.UserId,
-		Status:         len(foundKeywords) > 0,
+		Flagged:        len(foundKeywords) > 0,
 		MessageContent: newMessage.Message,
 	}
 

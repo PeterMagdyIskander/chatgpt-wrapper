@@ -51,7 +51,7 @@ func (h *SSEHandlers) StreamCompletion(c *gin.Context) {
 		return
 	}
 
-	if !message.Status {
+	if message.Flagged {
 		c.JSON(http.StatusForbidden, gin.H{"error": "Message contains forbidden keywords"})
 		return
 	}
