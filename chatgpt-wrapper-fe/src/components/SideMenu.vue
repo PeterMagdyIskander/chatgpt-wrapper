@@ -1,18 +1,14 @@
 <template>
   <div class="side-menu">
+    <h1 class="title">ChatGPT Wrapper</h1>
     <button @click="$emit('new-chat')" class="new-chat-btn">
       New Chat
     </button>
-    
+
     <div class="chat-list">
-      <div 
-        v-for="chat in chats" 
-        :key="chat.id" 
-        @click="$emit('select-chat', chat.id)"
-        :class="['chat-item', { active: currentChat === chat.id }]"
-      >
+      <div v-for="chat in chats" :key="chat.id" @click="$emit('select-chat', chat.id)"
+        :class="['chat-item', { active: currentChat === chat.id }]">
         <div class="chat-name">{{ chat.name }}</div>
-        <div class="chat-info">{{ chat.messages.length }} messages</div>
       </div>
     </div>
   </div>
@@ -38,19 +34,26 @@ export default {
 <style scoped>
 .side-menu {
   width: 250px;
-  background: #f5f5f5;
+  background-color: #171017;
   padding: 10px;
-  border-right: 1px solid #ccc;
   display: flex;
   flex-direction: column;
+  row-gap: 8px;
+}
+
+.title {
+  font-size: 18px;
+  color: rgb(227, 186, 209);
+  text-align: center;
 }
 
 .new-chat-btn {
   width: 100%;
-  margin-bottom: 10px;
-  padding: 10px;
-  border: 1px solid #ddd;
-  background: white;
+  border: 1px solid rgb(39, 36, 44);
+  background: rgba(163, 0, 76, 0.2);
+  color: rgb(251, 208, 232);
+  border-radius: 8px;
+  padding: 8px 16px;
   cursor: pointer;
 }
 
@@ -64,28 +67,16 @@ export default {
 }
 
 .chat-item {
-  padding: 10px;
   cursor: pointer;
-  margin-bottom: 5px;
-  border: 1px solid #ddd;
-  background: white;
+  color: rgb(244, 244, 245);
+  font-size: 14px;
+  
+  padding: 8px 16px;
+  border-radius: 6px;
 }
 
-.chat-item:hover {
-  background: #f0f0f0;
-}
 
 .chat-item.active {
-  background: #e0e0e0;
-}
-
-.chat-name {
-  font-weight: bold;
-  margin-bottom: 5px;
-}
-
-.chat-info {
-  font-size: 12px;
-  color: #666;
+  background: rgb(38, 25, 34);
 }
 </style>

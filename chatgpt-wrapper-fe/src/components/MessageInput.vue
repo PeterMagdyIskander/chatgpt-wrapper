@@ -1,14 +1,11 @@
 <template>
-  <div class="message-input-container">
-    <input 
-      v-model="inputMessage" 
-      @keyup.enter="sendMessage"
-      placeholder="Type your message..."
-      class="message-input"
-    >
-    <button @click="sendMessage" class="send-button">
-      Send
-    </button>
+  <div class="container">
+    <div class="message-input-container">
+      <input v-model="inputMessage" @keyup.enter="sendMessage" placeholder="Type your message..." class="message-input">
+      <button @click="sendMessage" class="send-button">
+        Send
+      </button>
+    </div>
   </div>
 </template>
 
@@ -23,7 +20,7 @@ export default {
 
     function sendMessage() {
       if (!inputMessage.value.trim()) return
-      
+
       const message = inputMessage.value.trim()
       emit('send-message', message)
       inputMessage.value = ''
@@ -38,37 +35,49 @@ export default {
 </script>
 
 <style scoped>
+.container {
+  height: 122px;
+  background-color: rgba(51, 46, 56, 0.4);
+  border: 1px solid rgb(39, 36, 44);
+  padding: 8px 8px 0 8px;
+  border-top-left-radius: 20px;
+  border-top-right-radius: 20px;
+  position: relative;
+}
+
 .message-input-container {
-  padding: 10px;
-  border-top: 1px solid #ccc;
+  height: 114px;
+  padding: 12px;
+  background-color: #2c2431;
+  border: 1px solid #2c2431;
+  color: rgb(212, 199, 225);
+  border-top-left-radius: 20px;
+  border-top-right-radius: 20px;
 }
 
 .message-input {
   width: 100%;
-  padding: 10px;
-  border: 1px solid #ccc;
-  margin-bottom: 10px;
+  font-size: 16px;
+  background-color: transparent;
+  border: unset;
+  color: rgb(249, 248, 251);
 }
 
-.message-input:focus {
-  outline: none;
-  border-color: #007bff;
+.message-input:focus-visible {
+  border: unset;
+  outline: unset;
 }
 
 .send-button {
-  padding: 10px 20px;
-  border: 1px solid #007bff;
-  background: #007bff;
-  color: white;
+  position: absolute;
+  bottom: 4px;
+  right: 4px;
+  padding: 10px;
+  color: rgb(253, 242, 248);
   cursor: pointer;
-}
-
-.send-button:hover {
-  background: #0056b3;
-}
-
-.send-button:disabled {
-  background: #ccc;
-  cursor: not-allowed;
+  font-size: 16px;
+  border-radius: 8px;
+  background-color: rgba(163, 0, 76, 0.2);
+  border: 1px solid rgba(163, 0, 76, 0.1);
 }
 </style>

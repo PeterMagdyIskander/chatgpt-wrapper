@@ -3,10 +3,13 @@
     <SideMenu :chats="chats" :current-chat="currentChat" @select-chat="selectChat" @new-chat="createNewChat" />
 
     <div class="chat-main">
-      <MessagesComponent :messages="currentChatMessages" :streaming-message="streamingMessage" />
+      <div class="content-container">
+        <MessagesComponent :messages="currentChatMessages" :streaming-message="streamingMessage" />
 
-      <MessageInput @send-message="sendMessage" />
+        <MessageInput @send-message="sendMessage" />
+      </div>
     </div>
+
   </div>
 </template>
 
@@ -165,7 +168,7 @@ export default {
           // Listen for data events (where the actual content comes through)
           eventSource.addEventListener('data', function (event) {
             console.log('Received data chunk:', event.data)
-            
+
             // Accumulate the streaming message in real-time
             streamingMessage.value += event.data
           })
@@ -173,12 +176,12 @@ export default {
           // Listen for done event to finalize the message
           eventSource.addEventListener('done', function (event) {
             console.log('Stream completed:', event.data)
-            
+
             // Add the final message to chat history
             if (streamingMessage.value.trim()) {
               addMessage(streamingMessage.value, 'bot')
             }
-            
+
             // Reset streaming message and close connection
             streamingMessage.value = ''
             eventSource.close()
@@ -188,13 +191,13 @@ export default {
           eventSource.onerror = function (event) {
             console.error('SSE error:', event)
             console.log('EventSource readyState:', eventSource.readyState)
-            
+
             // If we have partial content, save it
             if (streamingMessage.value.trim()) {
               addMessage(streamingMessage.value, 'bot')
               streamingMessage.value = ''
             }
-            
+
             eventSource.close()
           }
 
@@ -228,13 +231,27 @@ export default {
 
 <style scoped>
 .chat-container {
+  height: 100%;
   display: flex;
-  height: 100vh;
 }
 
 .chat-main {
-  flex: 1;
   display: flex;
   flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  flex: 1;
+  margin-top: 15px;
+  margin-left: 5px;
+  background-color: rgb(31, 26, 36);
+  border: 1px solid rgb(50, 32, 40);
+  border-top-left-radius: 15px;
+}
+.content-container{
+    width: 720px;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    position: relative;
 }
 </style>
