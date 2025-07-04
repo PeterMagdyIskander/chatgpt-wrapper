@@ -1,15 +1,20 @@
-module bff
+module bff/chatgpt-wraper-service-gin
 
 go 1.24.4
 
 require (
-	github.com/aaaton/golem/v4 v4.0.2
-	github.com/aaaton/golem/v4/dicts/en v1.0.1
 	github.com/gin-gonic/gin v1.10.1
-	github.com/joho/godotenv v1.5.1
+	github.com/kljensen/snowball v0.10.0
+	github.com/reiver/go-porterstemmer v1.0.1
 )
 
 require (
+	github.com/aaaton/golem/v4 v4.0.0 // indirect
+	github.com/aaaton/golem/v4/dicts/en v1.0.1 // indirect
+)
+
+require (
+	code.sajari.com/go-stem v0.0.0-20180318082006-2afd23dfc099
 	github.com/bytedance/sonic v1.11.6 // indirect
 	github.com/bytedance/sonic/loader v0.1.1 // indirect
 	github.com/cloudwego/base64x v0.1.4 // indirect

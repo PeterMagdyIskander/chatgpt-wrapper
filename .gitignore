@@ -1,0 +1,53 @@
+# Root
+.DS_Store
+.env
+*.log
+
+# ======================
+# Go + Gin (bff/)
+# ======================
+/bff/bin/
+/bff/pkg/
+/bff/vendor/
+*.exe
+*.exe~
+*.dll
+*.so
+*.dylib
+*.test
+*.out
+bff/.env
+bff/.DS_Store
+bff/coverage.out
+
+# Go build artifacts
+/bff/go.sum
+/bff/go.mod~
+/bff/*.test
+
+# IDEs and editors
+/bff/.idea/
+/bff/.vscode/
+/bff/*.swp
+
+# GoLand and JetBrains
+/bff/.golangci.yml
+/bff/.golangci.toml
+
+# ===========================
+# Vue (chatgpt-wrapper-fe/)
+# ===========================
+/chatgpt-wrapper-fe/node_modules/
+/chatgpt-wrapper-fe/dist/
+/chatgpt-wrapper-fe/.env
+/chatgpt-wrapper-fe/.env.*.local
+/chatgpt-wrapper-fe/.DS_Store
+
+# Optional: if using Yarn or pnpm
+/chatgpt-wrapper-fe/yarn.lock
+/chatgpt-wrapper-fe/pnpm-lock.yaml
+
+# IDEs and editors
+/chatgpt-wrapper-fe/.idea/
+/chatgpt-wrapper-fe/.vscode/
+/chatgpt-wrapper-fe/*.swp
