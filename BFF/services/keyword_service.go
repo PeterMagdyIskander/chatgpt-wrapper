@@ -56,13 +56,6 @@ func (s *KeywordService) ContainsKeyword(word string) bool {
 	return s.set.Contains(lemma)
 }
 
-// GetKeywordCount returns the number of stored keywords
-func (s *KeywordService) GetKeywordCount() int {
-	s.mu.Lock()
-	defer s.mu.Unlock()
-	return s.set.Size()
-}
-
 // CheckTextForKeywords checks if a text contains any of the stored keywords
 // This will be useful for your future message filtering functionality
 func (s *KeywordService) CheckTextForKeywords(text string) []string {

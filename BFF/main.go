@@ -47,21 +47,13 @@ func main() {
 	// Message routes
 	router.POST("/messages", messageHandlers.PostMessage)
 	router.GET("/messages", messageHandlers.GetMessages)
-	router.GET("/messages/:id", messageHandlers.GetMessageById)
-	router.GET("/messages/user/:userId", messageHandlers.GetMessagesByUser)
-	router.GET("/messages/stats", messageHandlers.GetMessageStats)
 
 	// Keyword routes
 	router.POST("/lemmatized-keywords", keywordHandlers.PostKeywords)
 	router.GET("/lemmatized-keywords", keywordHandlers.GetKeywords)
-	router.GET("/lemmatized-keywords/check/:word", keywordHandlers.CheckKeyword)
-	router.GET("/lemmatized-keywords/stats", keywordHandlers.GetKeywordStats)
-	router.POST("/lemmatized-keywords/check-text", keywordHandlers.CheckTextForKeywords)
 
 	// SSE/Streaming routes
-	router.GET("/stream", sseHandlers.StreamCompletion)
-	router.POST("/stream", sseHandlers.StreamCompletionWithCustomMessage)
-	router.GET("/stream/health", sseHandlers.HealthCheck)
+	router.GET("/ask-chatgpt", sseHandlers.StreamCompletion)
 
 	// Start server
 	log.Println("Server starting on :8081")
