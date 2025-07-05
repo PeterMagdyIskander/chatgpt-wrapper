@@ -66,7 +66,7 @@ Frontend View to integrate with the BFF service
 
 1. Clone the repository:
 ```bash
-git clone <repository-url>
+git clone https://github.com/PeterMagdyIskander/chatgpt-wrapper.git
 cd chatgpt-wrapper/BFF
 ```
 
