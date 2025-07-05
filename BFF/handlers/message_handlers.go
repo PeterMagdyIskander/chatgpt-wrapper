@@ -10,13 +10,13 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-// MessageHandlers contains all message-related HTTP handlers
+
 type MessageHandlers struct {
 	messageService *services.MessageService
 	keywordService *services.KeywordService
 }
 
-// NewMessageHandlers creates a new message handlers instance
+
 func NewMessageHandlers(messageService *services.MessageService, keywordService *services.KeywordService) *MessageHandlers {
 	return &MessageHandlers{
 		messageService: messageService,
@@ -24,7 +24,7 @@ func NewMessageHandlers(messageService *services.MessageService, keywordService 
 	}
 }
 
-// PostMessage handles POST /messages
+
 func (h *MessageHandlers) PostMessage(c *gin.Context) {
 	var newMessage models.UserMessageDTO
 
@@ -48,7 +48,7 @@ func (h *MessageHandlers) PostMessage(c *gin.Context) {
 		return
 	}
 
-	// Check if message contains any forbidden keywords
+
 	foundKeywords := h.keywordService.CheckTextForKeywords(newMessage.Message)
 
 	message := models.MessageUserTable{
@@ -58,7 +58,7 @@ func (h *MessageHandlers) PostMessage(c *gin.Context) {
 		MessageContent: newMessage.Message,
 	}
 
-	// Add message to database first
+
 	h.messageService.AddMessage(message)
 
 	if len(foundKeywords) > 0 {
@@ -72,7 +72,7 @@ func (h *MessageHandlers) PostMessage(c *gin.Context) {
 		return
 	}
 
-	// Message is clean - return 200
+
 	c.JSON(http.StatusOK, gin.H{
 		"messageId": message.MessageId,
 		"message":   "Message posted successfully",
@@ -80,19 +80,19 @@ func (h *MessageHandlers) PostMessage(c *gin.Context) {
 	})
 }
 
-// generateMessageID creates a simple message ID
-// In production, you might want to use UUID or a more sophisticated ID generator
+
+
 func generateMessageID() string {
 	return fmt.Sprintf("msg_%d", time.Now().UnixNano())
 }
 
-// GetMessages handles GET /messages
+
 func (h *MessageHandlers) GetMessages(c *gin.Context) {
 	messages := h.messageService.GetAllMessages()
 	c.JSON(http.StatusOK, messages)
 }
 
-// PostCharLimit handles POST /char-limit
+
 func (h *MessageHandlers) PostCharLimit(c *gin.Context) {
 	var newVarLimit models.CharLimitDTO
 
@@ -104,7 +104,8 @@ func (h *MessageHandlers) PostCharLimit(c *gin.Context) {
 
 	fmt.Println("CharLimit received:", newVarLimit.CharLimit)
 
-	// Set the char limit via the service
+
+
 	charLimit := h.messageService.SetCharLimit(newVarLimit.CharLimit)
 	res := models.CharLimitDTO{
 		CharLimit: charLimit,
@@ -112,7 +113,8 @@ func (h *MessageHandlers) PostCharLimit(c *gin.Context) {
 	c.JSON(http.StatusOK, res)
 }
 
-// GetCharLimit handles GET /char-limit
+
+
 func (h *MessageHandlers) GetCharLimit(c *gin.Context) {
 	charLimit := h.messageService.GetCharLimit()
 	res := models.CharLimitDTO{
