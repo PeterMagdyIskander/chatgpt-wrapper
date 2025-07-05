@@ -1,10 +1,10 @@
-# ChatGPT Wrapper Backend Service
+# ChatGPT Wrapper
 
-A comprehensive backend service that provides message management, keyword filtering, character limits, and OpenAI integration with streaming capabilities.
+A comprehensive backend service and frontend view that provides message management, keyword filtering, character limits, and OpenAI integration with streaming capabilities.
 
 ## Table of Contents
 
-- [ChatGPT Wrapper Backend Service](#chatgpt-wrapper-backend-service)
+- [ChatGPT Wrapper](#chatgpt-wrapper)
   - [Table of Contents](#table-of-contents)
   - [Overview](#overview)
   - [Features](#features)
@@ -36,11 +36,18 @@ A comprehensive backend service that provides message management, keyword filter
 
 ## Overview
 
-This backend service acts as a BFF (Backend for Frontend) that provides:
+Backend service acts as a BFF (Backend for Frontend) that provides:
 - Message posting and retrieval with content moderation
 - Character limit enforcement
 - Keyword-based content filtering using lemmatization
 - Real-time streaming integration with OpenAI's ChatGPT API
+- Basic Validation
+
+Frontend View to integrate with the BFF service
+- Store History of current and previous chats in localStorage
+- Generate User Id
+- Real-time streaming integration with the BFF service
+- Basic validation on character count
 
 ## Features
 
@@ -65,7 +72,7 @@ cd chatgpt-wrapper/BFF
 
 2. Install dependencies:
 ```bash
-go mod download
+go get .
 ```
 
 3. Create a `.env` file in the BFF directory:
