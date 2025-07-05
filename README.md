@@ -352,3 +352,8 @@ Make sure to set OPENAI_API_KEY environment variable
 ## Stemming
 
 - Stemming removes the common suffixes from the end of a word, which isn't exactly what we need, this is why I went with Lemmatization
+
+## Some Improvements
+
+- Docker compose for the whole app
+- Disconnect the connection to chatgpt, if the user disconnects prematurely
