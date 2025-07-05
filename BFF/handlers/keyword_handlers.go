@@ -8,19 +8,19 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-// KeywordHandlers contains all keyword-related HTTP handlers
+
 type KeywordHandlers struct {
 	keywordService *services.KeywordService
 }
 
-// NewKeywordHandlers creates a new keyword handlers instance
+
 func NewKeywordHandlers(keywordService *services.KeywordService) *KeywordHandlers {
 	return &KeywordHandlers{
 		keywordService: keywordService,
 	}
 }
 
-// PostKeywords handles POST /lemmatized-keywords
+
 func (h *KeywordHandlers) PostKeywords(c *gin.Context) {
 	var req models.KeywordRequest
 
@@ -45,7 +45,7 @@ func (h *KeywordHandlers) PostKeywords(c *gin.Context) {
 	})
 }
 
-// GetKeywords handles GET /lemmatized-keywords
+
 func (h *KeywordHandlers) GetKeywords(c *gin.Context) {
 	keywords := h.keywordService.GetAllKeywords()
 	c.JSON(http.StatusOK, keywords)
