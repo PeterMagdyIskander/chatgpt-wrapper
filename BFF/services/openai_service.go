@@ -13,14 +13,14 @@ import (
 	"time"
 )
 
-// OpenAIService handles communication with OpenAI API
+
 type OpenAIService struct {
 	apiKey  string
 	baseURL string
 	client  *http.Client
 }
 
-// NewOpenAIService creates a new OpenAI service
+
 func NewOpenAIService(apiKey string) *OpenAIService {
 	return &OpenAIService{
 		apiKey:  apiKey,
@@ -31,12 +31,12 @@ func NewOpenAIService(apiKey string) *OpenAIService {
 	}
 }
 
-// StreamCompletion sends a message to OpenAI and streams the response
+
 func (s *OpenAIService) StreamCompletion(userMessage string, responseChan chan<- string, errorChan chan<- error) {
 	defer close(responseChan)
 	defer close(errorChan)
 
-	// Prepare the request
+
 	requestBody := models.OpenAIRequest{
 		Model: "gpt-4o-mini", // You can change this to gpt-4 if needed
 		Messages: []models.Message{
@@ -62,18 +62,18 @@ Your answer should always be structured and use fun emojis.`,
 		return
 	}
 
-	// Create HTTP request
+
 	req, err := http.NewRequest("POST", s.baseURL+"/chat/completions", bytes.NewBuffer(jsonData))
 	if err != nil {
 		errorChan <- fmt.Errorf("failed to create request: %w", err)
 		return
 	}
 
-	// Set headers
+
 	req.Header.Set("Content-Type", "application/json")
 	req.Header.Set("Authorization", "Bearer "+s.apiKey)
 
-	// Make the request
+
 	resp, err := s.client.Do(req)
 	if err != nil {
 		errorChan <- fmt.Errorf("failed to make request: %w", err)
@@ -81,14 +81,14 @@ Your answer should always be structured and use fun emojis.`,
 	}
 	defer resp.Body.Close()
 
-	// Check response status
+
 	if resp.StatusCode != http.StatusOK {
 		body, _ := io.ReadAll(resp.Body)
 		errorChan <- fmt.Errorf("OpenAI API error: %d - %s", resp.StatusCode, string(body))
 		return
 	}
 
-	// Read the streaming response
+
 	scanner := bufio.NewScanner(resp.Body)
 	for scanner.Scan() {
 		line := scanner.Text()
@@ -98,23 +98,23 @@ Your answer should always be structured and use fun emojis.`,
 			continue
 		}
 
-		// Check for data lines
+
 		if strings.HasPrefix(line, "data: ") {
 			data := strings.TrimPrefix(line, "data: ")
 
-			// Check for end of stream
+
 			if data == "[DONE]" {
 				break
 			}
 
-			// Parse the JSON response
+
 			var streamResp models.OpenAIStreamResponse
 			if err := json.Unmarshal([]byte(data), &streamResp); err != nil {
-				// Skip malformed JSON, don't break the stream
+
 				continue
 			}
 
-			// Extract content from the response
+
 			if len(streamResp.Choices) > 0 {
 				content := streamResp.Choices[0].Delta.Content
 				if content != "" {
@@ -129,7 +129,7 @@ Your answer should always be structured and use fun emojis.`,
 	}
 }
 
-// ValidateAPIKey checks if the API key is valid by making a simple request
+
 func (s *OpenAIService) ValidateAPIKey() error {
 	req, err := http.NewRequest("GET", s.baseURL+"/models", nil)
 	if err != nil {
