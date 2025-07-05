@@ -80,6 +80,21 @@ go get .
 OPENAI_API_KEY=your_openai_api_key_here
 ```
 
+4. Run the backend:
+```bash
+go run .
+```
+
+5. Go to chatgpt-wrapper/chatgpt-wrapper-fe in a separate terminal:
+```bash
+npm i
+```
+
+6. Run the frontend:
+```bash
+npm run start
+```
+
 ## API Documentation
 
 ### Character Limit Management
