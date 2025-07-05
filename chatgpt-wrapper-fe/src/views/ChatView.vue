@@ -173,7 +173,6 @@ export default {
 
           // Listen for data events (where the actual content comes through)
           eventSource.addEventListener('data', function (event) {
-            console.log('Received data chunk:', event.data)
 
             // Accumulate the streaming message in real-time
             streamingMessage.value += event.data + ' '
@@ -181,7 +180,6 @@ export default {
 
           // Listen for done event to finalize the message
           eventSource.addEventListener('done', function (event) {
-            console.log('Stream completed:', event.data)
 
             // Add the final message to chat history
             if (streamingMessage.value.trim()) {
@@ -195,9 +193,6 @@ export default {
 
           // Handle errors
           eventSource.onerror = function (event) {
-            console.error('SSE error:', event)
-            console.log('EventSource readyState:', eventSource.readyState)
-
             // If we have partial content, save it
             if (streamingMessage.value.trim()) {
               addMessage(streamingMessage.value, 'bot')
