@@ -58,7 +58,7 @@ export default {
 }
 
 .new-chat-btn:hover {
-  background: #e9e9e9;
+  background: rgba(157, 23, 77, .7);
 }
 
 .chat-list {

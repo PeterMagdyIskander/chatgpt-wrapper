@@ -6,7 +6,7 @@
       <div class="content-container">
         <MessagesComponent :messages="currentChatMessages" :streaming-message="streamingMessage" />
 
-        <MessageInput @send-message="sendMessage" />
+        <MessageInput @send-message="sendMessage" :charLimit="charLimit" />
       </div>
     </div>
 
@@ -38,17 +38,23 @@ export default {
     const chats = ref([])
     const currentChat = ref(null)
     const streamingMessage = ref('')
+    const charLimit = ref(100)
 
     // Initialize app
-    onMounted(() => {
+    onMounted(async () => {
       initializeUserId()
       loadChats()
-
+      await loadCharLimit()
       // Set current chat from route params
       if (route.params.id) {
         currentChat.value = route.params.id
       }
     })
+
+    async function loadCharLimit() {
+      const res = await ChatService.getChatLimit()
+      charLimit.value = res.charLimit
+    }
 
     // Watch for route changes
     watch(() => route.params.id, (newId) => {
@@ -58,7 +64,7 @@ export default {
       }
     })
 
-    // Initialize user ID
+
     function initializeUserId() {
       let storedUserId = StorageService.getItem('userId')
       if (!storedUserId) {
@@ -68,7 +74,7 @@ export default {
       userId.value = storedUserId
     }
 
-    // Load chats from localStorage
+
     function loadChats() {
       const storedChats = StorageService.getItem('chats')
       if (storedChats) {
@@ -89,7 +95,7 @@ export default {
       }
     }
 
-    // Save chats to localStorage
+
     function saveChats() {
       try {
         StorageService.setItem('chats', JSON.stringify(chats.value))
@@ -98,13 +104,13 @@ export default {
       }
     }
 
-    // Get current chat messages
+
     const currentChatMessages = computed(() => {
       const chat = chats.value.find(c => c.id === currentChat.value)
       return chat ? chat.messages : []
     })
 
-    // Create new chat
+
     function createNewChat() {
       const newChat = {
         id: generateChatId(),
@@ -118,14 +124,14 @@ export default {
       router.push(`/chat/${currentChat.value}`)
     }
 
-    // Select chat
+
     function selectChat(chatId) {
       currentChat.value = chatId
       streamingMessage.value = ''
       router.push(`/chat/${chatId}`)
     }
 
-    // Add message to current chat
+
     function addMessage(content, type) {
       const chat = chats.value.find(c => c.id === currentChat.value)
       if (chat) {
@@ -146,7 +152,7 @@ export default {
       }
     }
 
-    // Send message
+
     async function sendMessage(message) {
       addMessage(message, 'user')
 
@@ -170,7 +176,7 @@ export default {
             console.log('Received data chunk:', event.data)
 
             // Accumulate the streaming message in real-time
-            streamingMessage.value += event.data
+            streamingMessage.value += event.data + ' '
           })
 
           // Listen for done event to finalize the message
@@ -210,7 +216,6 @@ export default {
           addMessage('Message was not approved', 'bot')
         }
       } catch (error) {
-        console.error('Error sending message:', error)
         addMessage('Error: Could not connect to server', 'bot')
       }
     }
@@ -221,6 +226,7 @@ export default {
       currentChat,
       currentChatMessages,
       streamingMessage,
+      charLimit,
       sendMessage,
       selectChat,
       createNewChat
@@ -247,11 +253,12 @@ export default {
   border: 1px solid rgb(50, 32, 40);
   border-top-left-radius: 15px;
 }
-.content-container{
-    width: 720px;
-    height: 100%;
-    display: flex;
-    flex-direction: column;
-    position: relative;
+
+.content-container {
+  width: 720px;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  position: relative;
 }
 </style>

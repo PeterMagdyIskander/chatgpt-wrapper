@@ -46,10 +46,7 @@ func (s *OpenAIService) StreamCompletion(userMessage string, responseChan chan<-
 You will be provided with a question from the user, and you need to provide an answer based on the data provided.
 If the question can be answered with the data provided, you should provide a direct answer.
 If the question requires reasoning or analysis, you should provide a detailed explanation of your reasoning process and the steps you took to arrive at your answer.
-Your answer should always be structured and use fun emojis.
-You should also provide a concise title for your response, it should be the very first thing you provide in your message, 
-and it should be formatted like this title="your title should be here" you should 2 $$ after it i.e it should look something like this
-title="Todo list creation"$$your response should be here, you should only return the title for the first message in the conversation`,
+Your answer should always be structured and use fun emojis.`,
 			},
 			{
 				Role:    "user",

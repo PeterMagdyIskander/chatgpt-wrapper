@@ -56,6 +56,8 @@ func main() {
 	// Message routes
 	router.POST("/messages", messageHandlers.PostMessage)
 	router.GET("/messages", messageHandlers.GetMessages)
+	router.POST("/char-limit", messageHandlers.PostCharLimit)
+	router.GET("/char-limit", messageHandlers.GetCharLimit)
 
 	// Keyword routes
 	router.POST("/lemmatized-keywords", keywordHandlers.PostKeywords)

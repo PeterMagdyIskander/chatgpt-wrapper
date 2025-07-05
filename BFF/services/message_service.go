@@ -5,34 +5,31 @@ import (
 	"sync"
 )
 
-// MessageService handles message-related business logic
 type MessageService struct {
-	messages []models.MessageUserTable
-	mu       sync.Mutex
+	messages  []models.MessageUserTable
+	charLimit int16
+	mu        sync.Mutex
 }
 
-// NewMessageService creates a new message service
 func NewMessageService() *MessageService {
 	return &MessageService{
-		messages: make([]models.MessageUserTable, 0),
+		messages:  make([]models.MessageUserTable, 0),
+		charLimit: 100,
 	}
 }
 
-// AddMessage adds a new message to the store
 func (s *MessageService) AddMessage(msg models.MessageUserTable) {
 	s.mu.Lock()
 	defer s.mu.Unlock()
 	s.messages = append(s.messages, msg)
 }
 
-// GetAllMessages returns all messages (thread-safe copy)
 func (s *MessageService) GetAllMessages() []models.MessageUserTable {
 	s.mu.Lock()
 	defer s.mu.Unlock()
 	return append([]models.MessageUserTable{}, s.messages...)
 }
 
-// GetMessageById returns a message by its ID
 func (s *MessageService) GetMessageById(messageId string) (*models.MessageUserTable, bool) {
 	s.mu.Lock()
 	defer s.mu.Unlock()
@@ -43,4 +40,15 @@ func (s *MessageService) GetMessageById(messageId string) (*models.MessageUserTa
 		}
 	}
 	return nil, false
+}
+func (s *MessageService) SetCharLimit(newCharLimit int16) int16 {
+	s.mu.Lock()
+	defer s.mu.Unlock()
+	s.charLimit = newCharLimit
+	return s.charLimit
+}
+func (s *MessageService) GetCharLimit() int16 {
+	s.mu.Lock()
+	defer s.mu.Unlock()
+	return s.charLimit
 }

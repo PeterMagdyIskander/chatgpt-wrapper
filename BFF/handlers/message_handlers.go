@@ -33,9 +33,13 @@ func (h *MessageHandlers) PostMessage(c *gin.Context) {
 		return
 	}
 
-	// Basic validation
 	if newMessage.Message == "" {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "Message cannot be empty"})
+		return
+	}
+
+	if len(newMessage.Message) > int(h.messageService.GetCharLimit()) {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid Character Size"})
 		return
 	}
 
@@ -86,4 +90,33 @@ func generateMessageID() string {
 func (h *MessageHandlers) GetMessages(c *gin.Context) {
 	messages := h.messageService.GetAllMessages()
 	c.JSON(http.StatusOK, messages)
+}
+
+// PostCharLimit handles POST /char-limit
+func (h *MessageHandlers) PostCharLimit(c *gin.Context) {
+	var newVarLimit models.CharLimitDTO
+
+	// Bind the JSON request body to newVarLimit
+	if err := c.ShouldBindJSON(&newVarLimit); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+
+	fmt.Println("CharLimit received:", newVarLimit.CharLimit)
+
+	// Set the char limit via the service
+	charLimit := h.messageService.SetCharLimit(newVarLimit.CharLimit)
+	res := models.CharLimitDTO{
+		CharLimit: charLimit,
+	}
+	c.JSON(http.StatusOK, res)
+}
+
+// GetCharLimit handles GET /char-limit
+func (h *MessageHandlers) GetCharLimit(c *gin.Context) {
+	charLimit := h.messageService.GetCharLimit()
+	res := models.CharLimitDTO{
+		CharLimit: charLimit,
+	}
+	c.JSON(http.StatusOK, res)
 }

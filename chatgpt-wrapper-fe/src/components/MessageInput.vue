@@ -1,8 +1,9 @@
 <template>
   <div class="container">
     <div class="message-input-container">
-      <input v-model="inputMessage" @keyup.enter="sendMessage" placeholder="Type your message..." class="message-input">
-      <button @click="sendMessage" class="send-button">
+      <input v-model="inputMessage" @keyup.enter="sendMessage" placeholder="Type your message..." class="message-input" :disabled="inputMessage.length>charLimit">
+      
+      <button @click="sendMessage" class="send-button" >
         Send
       </button>
     </div>
@@ -15,7 +16,13 @@ import { ref } from 'vue'
 export default {
   name: 'MessageInput',
   emits: ['send-message'],
-  setup(props, { emit }) {
+  props: {
+    charLimit: {
+      type: Number,
+      required: true
+    },
+  },
+  setup(props,{ emit }) {
     const inputMessage = ref('')
 
     function sendMessage() {
@@ -46,7 +53,6 @@ export default {
 }
 
 .message-input-container {
-  height: 114px;
   padding: 12px;
   background-color: #2c2431;
   border: 1px solid #2c2431;
@@ -66,6 +72,10 @@ export default {
 .message-input:focus-visible {
   border: unset;
   outline: unset;
+}
+
+.message-input:disabled{
+  border: 1px solid red !important;
 }
 
 .send-button {
